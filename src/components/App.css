@@ -1,1 +1,11 @@
 /* Styles go here */
+.nav_bar_right{
+    display: flex;
+    margin-right: 10px;
+}
+.accountNumber{
+   color: white;
+   margin-top: auto;
+   margin-bottom: auto;
+   float: right;
+}
