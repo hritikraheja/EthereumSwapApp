@@ -20,6 +20,7 @@ module.exports = {
   //The compilers that we use to compile the smart contracts.
   compilers: {
     solc: {
+      version : "^0.8.0",
       optimizer: {
         enabled: true,
         runs: 200

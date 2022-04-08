@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: HRITIK
 
-pragma solidity >=0.5.0;
+pragma solidity >=0.8.0;
 
 import "./Token.sol";
+//import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol";
 
 contract EthSwap{
     string public name = "EthSwap Instant Exchange";
@@ -16,6 +17,14 @@ contract EthSwap{
         uint rate
     );
     //Creation of an event that some task just got executed.
+
+    event TokenSold(
+        address account,
+        address token,
+        uint amount,
+        uint rate
+    );
+
     constructor(Token _token) public {
         token = _token;
     }
@@ -31,5 +40,23 @@ contract EthSwap{
 
         //Emit an event
         emit TokenPurchased(msg.sender, address(token), tokenAmount, rate);
+    }
+
+
+    function sellTokens(uint _amount) external payable{
+
+        //User cannot sell more tokens than they have.
+        require(token.balanceOf(msg.sender) >= _amount);
+
+        uint etherAmount = _amount/rate;
+
+        //Require that EthSwap has enough ethers.
+        require(address(this).balance >= etherAmount);
+        token.transferFrom(msg.sender, address(this), _amount);
+        address payable owner = payable(msg.sender);
+        owner.transfer(etherAmount);
+        // emit an event.
+
+        emit TokenSold(msg.sender, address(token), etherAmount, rate);
     }
 }

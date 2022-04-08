@@ -9,6 +9,7 @@ contract('EthSwap', ([deployer, investor]) => {
 
     let token, ethSwap;
     let result;
+    let resultS;
     // before works as a constructor.
     before(async() => {
         token = await Token.new();
@@ -42,6 +43,19 @@ contract('EthSwap', ([deployer, investor]) => {
             assert.equal(balance.toString(), '100000000000000000000');
 
             console.log(result.logs[0].args);
+        })
+    })
+
+    describe('sellTokens()', async() =>{
+        let result;
+
+        before(async() => {
+            await token.approve(ethSwap.address, '100000000000000000000', {from: investor});
+            result = await ethSwap.sellTokens('100000000000000000000', {from : investor})
+        })
+        it('It allows users to sell tokens at a fixed rate.', async () => {
+            let balance = await token.balanceOf(investor);
+            assert.equal(balance.toString(), '0');
         })
     })
 })
