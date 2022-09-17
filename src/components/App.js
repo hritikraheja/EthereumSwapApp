@@ -135,8 +135,8 @@ class App extends Component {
 
     return (
       <div>
-        <NavBar accountNumber = {this.state.accountAddress}/> //This will use the navbar component and
-        //and pass the accountNumber as a constructor for navbar.
+        {/* This will use the navbar component and pass the accountNumber as a constructor for navbar. */}
+        <NavBar accountNumber = {this.state.accountAddress}/> 
         {content}
       </div>
     );
